@@ -4,7 +4,7 @@ A simple Java based system for calculating and saving phenotypic characteristics
 
 Takes in sets of Mario levels encoded as .txt files using the Mario AI Framework (https://github.com/amidos2006/Mario-AI-Framework) format, and produces a .csv of the levels with their specified phenotypic characteristics.
 
-##Basic Instalation and Operation
+## Basic Instalation and Operation
 
 To install, download a copy of this repository into the same directory as a local copy of the Mario AI Framework.
 
