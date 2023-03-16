@@ -2,19 +2,19 @@ package metricExtraction;
 
 import engine.core.MarioLevel;
 
-public class IllumMarioLevel extends MarioLevel {
+public class MarioLevelWrapper extends MarioLevel {
 	
 	private String levelRep;
 	
-	public IllumMarioLevel(String level, boolean visuals) {
+	public MarioLevelWrapper(String level, boolean visuals) {
 
 		super(level, visuals);
 		levelRep = level;
 		
 	}
 	
-	public IllumMarioLevel clone() {
-		IllumMarioLevel level = (IllumMarioLevel) super.clone();
+	public MarioLevelWrapper clone() {
+		MarioLevelWrapper level = (MarioLevelWrapper) super.clone();
 		level.setStringRep(levelRep);
 		return level;
 

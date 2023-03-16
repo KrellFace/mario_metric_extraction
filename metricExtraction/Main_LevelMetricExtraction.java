@@ -8,12 +8,22 @@ import java.util.List;
 import java.util.EnumSet;
 import java.util.Scanner;
         
-public class LevelMetricExtraction {
+public class Main_LevelMetricExtraction {
 
-    static String inputFolders = "C:\\Users\\owith\\Documents\\PhD Work\\IllumMario Platform\\levels\\";
-    static String outputFileName = "C:\\Users\\owith\\Documents\\PhD Work\\ERA Metric Evaluation\\Code Repo\\mario_metric_extraction\\output\\MetricExtraction\\TEST_NuMethod1.csv";
+    //static String inputFolders = "C:\\Users\\owith\\Documents\\PhD Work\\ERA Metric Evaluation\\Code Repo\\mario_metric_extraction\\levels\\";
+    //static String outputFileName = "C:\\Users\\owith\\Documents\\PhD Work\\ERA Metric Evaluation\\Code Repo\\mario_metric_extraction\\output\\MetricExtraction\\TEST_Renames.csv";
 
+    static String inputFolders = ".\\levels\\";
+    static String outputFileName = ".\\output\\MetricExtraction\\TEST_Refactor2.csv";
+
+
+
+    //Number of game ticks given to the agent to try and complete the level
     static int ticksPerRun = 10;
+
+
+    //Number of levels to be evaluated per folder. Set arbitrarily high to evaluate all (>1000 for the Mario AI Benchmark set)
+    static int levelsPerFolder = 4;
     
     public static void main(String[] args)  throws IOException{
 
@@ -40,23 +50,20 @@ public class LevelMetricExtraction {
         }
         outputData.add(firstLine);
 
+        //Calculate and save level metrics
         for (int q = 0; q<generatorFolders.length; q++){
             File[] files = generatorFolders[q].listFiles();
             System.out.println("Processing generator: " + generatorFolders[q].getName());
 
-            //System.out.print(files);
-            //for (int i = 0; i<files.length; i++){
-            for (int i = 0; i<3; i++){  
+            int filesToGet = Math.min(files.length, levelsPerFolder);
+
+            for (int i = 0; i<filesToGet;i++){
                 char[][] cr = fileToCharRep(files[i]);
                 String s = stringRepFromCharRep(cr);
-                IllumMarioLevel lvl = new IllumMarioLevel(s, false);
-                LvlMetricWrap lvlwrp = new LvlMetricWrap(files[i].getName(), ticksPerRun, lvl);
+                MarioLevelWrapper lvl = new MarioLevelWrapper(s, false);
+                MetricsWrapper lvlwrp = new MetricsWrapper(files[i].getName(), ticksPerRun, lvl);
                 lvlwrp.runAgentNTimes((int)5);
-                //System.out.println(lvlwrp.toString());
-                //System.out.println(HelperMethods.stringRepFromCharRep(lvlwrp.getCharRep()));
-                //lvlwrp.printSummary();
 
-                //String[] levelLine = new String[metricsToExtract.length+2];
                 String[] levelLine = new String[metricsToExtract.size()+2];
                 levelLine[0] = lvlwrp.getName(); levelLine[1] = generatorFolders[q].getName();  
                 
@@ -68,7 +75,6 @@ public class LevelMetricExtraction {
 
                 outputData.add(levelLine);
             }
-
 
             File outCSV = new File(outputFolder);
             FileWriter fileWriter = new FileWriter(outCSV);
@@ -127,7 +133,7 @@ public class LevelMetricExtraction {
         for (int y = 0; y < levelRep.length; y++) {
             for (int x = 0; x < levelRep[y].length; x++) {
 
-                //Clunky handling for blank cells
+                //Handling for blank cells
                 if (levelRep[y][x] == nulls) {
                     output += "-";
                 } else {

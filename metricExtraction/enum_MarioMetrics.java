@@ -7,10 +7,8 @@ public enum enum_MarioMetrics {
 
     //Structural Metrics
     Contiguity,
-    //AdjustedContiguity,
     Linearity,
     Density,
-    //ClearRows,
     ClearColumns,
     PipeCount,
     BlockCount,
@@ -25,7 +23,6 @@ public enum enum_MarioMetrics {
     TimeTaken,
     TotalEnemyDeaths,
     KillsByStomp,
-    //KillsOverEnemies,
     MaxJumpAirTime,
     OnGroundRatio,
     AverageY
